@@ -1,23 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import { useContext } from "react";
+import ContextProvider from "./store";
 
 function App() {
+  console.log(useContext(ContextProvider));
+ 
+  const { name, setName } = useContext(ContextProvider);
+  // const changeName =  (n) => setName(n)
+  const addUser = (fn, ln) =>
+    setName((prevState) => [...prevState, { fName: fn, lName: ln }]);
+  const updateUser = (ind, fn, ln) => {
+    const newData = [...name];
+    newData[ind] = { fName: fn, lName: ln };
+    setName(newData);
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {JSON.stringify(name)}    
+      <button onClick={() => addUser("Donny", "Ranardo")}> Add User</button>
+      <button onClick={() => updateUser(2, "Josh", "Osbourne")}>
+        Update User
+      </button>
     </div>
   );
 }
